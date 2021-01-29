@@ -15,11 +15,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.js"></script>
 <script>
     const socket = io("http://localhost:3000/");
+    socket.on("disconnect", () => {
+        console.log("Desconectado");
+    });
+    
     socket.emit("boasvindas", {nome: "Lucas Rodrigues"});
 
     socket.on("resultado", (data) => {
         console.log(data);
-        
+
         const p = document.getElementById("resultado");
         p.innerHTML = data;
     });

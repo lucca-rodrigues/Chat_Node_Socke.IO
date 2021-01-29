@@ -5,15 +5,18 @@ const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 
 io.on("connection",(socket) => {
+    socket.on("disconnect", () => {
+        console.log("O usuário " + socket.id + " Foi desconectado!");
+    });
+
     socket.on("boasvindas", (data) => {
-        console.log("EXECUTANDO EVENTO DE BOAS VINDAS!");
-        console.log(data);
-    })
+        console.log("O usuário " + socket.id + " Conectado!");
+    });
 
     socket.on("palavra", (data) => {
         console.log(data);
-        socket.emit("resultado", data + "Guia do Programador");
-    })
+        socket.emit("resultado", data + " - Guia do Programador");
+    });
 });
 
 app.set("view engine", "ejs");
