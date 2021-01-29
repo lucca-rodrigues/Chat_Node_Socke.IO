@@ -7,5 +7,28 @@
 </head>
 <body>
     <h1>Socket IO</h1>
+    <input type="text" name="" id="palavra">
+    <button onclick="enviar()">Send</button>
+    <p id="resultado"></p>
+
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.js"></script>
+<script>
+    const socket = io("http://localhost:3000/");
+    socket.emit("boasvindas", {nome: "Lucas Rodrigues"});
+
+    socket.on("resultado", (data) => {
+        console.log(data);
+        
+        const p = document.getElementById("resultado");
+        p.innerHTML = data;
+    });
+
+
+    function enviar(){
+        const input = document.getElementById("palavra");
+        socket.emit("palavra", input.value);
+    }
+
+</script>
 </html>
