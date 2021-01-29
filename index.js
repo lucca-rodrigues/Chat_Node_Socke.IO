@@ -10,7 +10,12 @@ io.on("connection",(socket) => {
     });
 
     socket.on("msg", (data) => {
-        io.emit("showmsg", data);
+        io.emit("showmsg", data)
+        console.log(data);
+    })    
+    
+    socket.on("login", (data) => {
+        io.emit("showmsg", data)
         console.log(data);
     })
 

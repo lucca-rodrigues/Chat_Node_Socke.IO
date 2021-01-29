@@ -9,9 +9,17 @@
     <h1>Chat</h1>
 
     <div id="chat"></div>
-    <input type="text" name="" id="username" placeholder="Digite seu nome">
-    <input type="text" name="" id="msg" placeholder="message">
-    <button onclick="enviar()">Send</button>
+
+    <div id="login">
+        <input type="text" name="" id="username" placeholder="Digite seu nome">
+        <button onclick="login()">Send</button>
+    </div>
+
+    
+    <%= if (data.username ) { %>
+        <input type="text" name="" id="msg" placeholder="message">    
+        <button onclick="sendMessage()">Send</button>
+    <% } %> 
     <p id="resultado"></p>
     
 
@@ -44,18 +52,28 @@
         chat.append(p);
     });
 
-    function enviar(){
-        const msgField = document.getElementById("msg");
+    function login(){
         const usernameField = document.getElementById("username");
-
-        const msg = msgField.value;
         const username = usernameField.value;
 
-        socket.emit("msg", {msg: msg, username: username});
+        socket.emit("login", {username: username});
 
-        if(username && msg){
+        if(username){
             localStorage.setItem("webchat:user", JSON.stringify(username));
         }
+        return;
     }
+
+
+    function sendMessage(){
+        const msgField = document.getElementById("msg");
+        const msg = msgField.value;
+
+        const username = localStorage.getItem("webchat:user", JSON.stringify(username));
+
+        if(username != undefine){
+            socket.emit("msg", {username: username, msg: msg});
+        }
+}
 </script>
 </html>
