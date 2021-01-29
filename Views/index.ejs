@@ -6,10 +6,14 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Socket IO</h1>
-    <input type="text" name="" id="palavra">
+    <h1>Chat</h1>
+
+    <div id="chat"></div>
+    <input type="text" name="" id="username" placeholder="username">
+    <input type="text" name="" id="msg" placeholder="message">
     <button onclick="enviar()">Send</button>
     <p id="resultado"></p>
+    
 
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.js"></script>
@@ -18,21 +22,29 @@
     socket.on("disconnect", () => {
         console.log("Desconectado");
     });
-    
-    socket.emit("boasvindas", {nome: "Lucas Rodrigues"});
 
-    socket.on("resultado", (data) => {
+    socket.on("showmsg", (data) => {
         console.log(data);
 
-        const p = document.getElementById("resultado");
-        p.innerHTML = data;
+        const chat = document.getElementById("chat");
+
+        const p = document.createElement("p")
+        const dataInfo = data.username + ' : ' + data.msg
+        p.innerHTML = dataInfo;
+        chat.append(p);
     });
 
-
     function enviar(){
-        const input = document.getElementById("palavra");
-        socket.emit("palavra", input.value);
+        const msgField = document.getElementById("msg");
+        const usernameField = document.getElementById("username");
+
+        const msg = msgField.value;
+        const username = usernameField.value;
+
+        socket.emit("msg", {msg: msg, username: username});
     }
+
+
 
 </script>
 </html>

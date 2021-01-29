@@ -9,14 +9,11 @@ io.on("connection",(socket) => {
         console.log("O usuário " + socket.id + " Foi desconectado!");
     });
 
-    socket.on("boasvindas", (data) => {
-        console.log("O usuário " + socket.id + " Conectado!");
-    });
-
-    socket.on("palavra", (data) => {
+    socket.on("msg", (data) => {
+        socket.emit("showmsg", data);
         console.log(data);
-        socket.emit("resultado", data + " - Guia do Programador");
-    });
+    })
+
 });
 
 app.set("view engine", "ejs");
